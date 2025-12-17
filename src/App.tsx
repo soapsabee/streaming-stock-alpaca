@@ -88,46 +88,48 @@ function App() {
   const [form] = Form.useForm();
   const [tableForm] = Form.useForm();
   const socketRef: any = useRef(null);
-  const [lastMessage, setLastMessage] = useState();
+  const [lastMessage, setLastMessage] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<DataType[]>([
-   { key: '1', symbol: 'AAPL', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '2', symbol: 'TSLA', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '3', symbol: 'MSFT', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '4', symbol: 'GOOGL', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '5', symbol: 'AMZN', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '6', symbol: 'META', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '7', symbol: 'NVDA', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '8', symbol: 'NFLX', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '9', symbol: 'AMD', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '10', symbol: 'INTC', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '1', symbol: 'AAPL', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '2', symbol: 'TSLA', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '3', symbol: 'MSFT', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '4', symbol: 'GOOGL', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '5', symbol: 'AMZN', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '6', symbol: 'META', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '7', symbol: 'NVDA', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '8', symbol: 'NFLX', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '9', symbol: 'AMD', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '10', symbol: 'INTC', openPrice: 0, closePrice: 0, updatedAt: '' },
 
-  { key: '11', symbol: 'PLTR', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '12', symbol: 'COIN', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '13', symbol: 'UBER', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '14', symbol: 'LYFT', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '15', symbol: 'SHOP', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '16', symbol: 'BA', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '17', symbol: 'DIS', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '18', symbol: 'NKE', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '19', symbol: 'JPM', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '20', symbol: 'BAC', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '11', symbol: 'PLTR', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '12', symbol: 'COIN', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '13', symbol: 'UBER', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '14', symbol: 'LYFT', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '15', symbol: 'SHOP', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '16', symbol: 'BA', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '17', symbol: 'DIS', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '18', symbol: 'NKE', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '19', symbol: 'JPM', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '20', symbol: 'BAC', openPrice: 0, closePrice: 0, updatedAt: '' },
 
-  { key: '21', symbol: 'V', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '22', symbol: 'MA', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '23', symbol: 'XOM', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '24', symbol: 'CVX', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '25', symbol: 'WMT', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '26', symbol: 'COST', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '27', symbol: 'T', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '28', symbol: 'KO', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '29', symbol: 'PEP', openPrice: 0, closePrice: 0, updatedAt: '' },
-  { key: '30', symbol: 'RTX', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '21', symbol: 'V', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '22', symbol: 'MA', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '23', symbol: 'XOM', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '24', symbol: 'CVX', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '25', symbol: 'WMT', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '26', symbol: 'COST', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '27', symbol: 'T', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '28', symbol: 'KO', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '29', symbol: 'PEP', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '30', symbol: 'RTX', openPrice: 0, closePrice: 0, updatedAt: '' },
   ]);
+  const [previousData, setPreviousData] =
+    useState<DataType[]>([]);
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record: DataType) => record.key === editingKey;
 
-  const handleErrorGetLatestBar = (res : string) => {
+  const handleErrorGetLatestBar = (res: string) => {
     const txtArray = res.split(",")
     message.error(txtArray[1])
   }
@@ -163,14 +165,14 @@ function App() {
       }
 
       const res = await getLatestBarsBySymbol(symbol);
-      
-      if(res?.message?.split(",")[0] === "code=400"){
+
+      if (res?.message?.split(",")[0] === "code=400") {
         return handleErrorGetLatestBar(res.message)
       }
 
       const bars = res.bars;
       const temp = bars[symbol];
-      if(!temp) throw "This symbol not have price info" 
+      if (!temp) throw "This symbol not have price info"
       value.openPrice = temp["o"];
       value.closePrice = temp["c"];
       value.updatedAt = temp["t"];
@@ -182,6 +184,7 @@ function App() {
         ]
 
         setData(tempData)
+        subScribeData(tempData)
         message.success('Submit success! :' + value?.symbol);
         handleCancel();
         return;
@@ -189,6 +192,7 @@ function App() {
       const result = handleEditSymbol(value, data, editSaveObj)
       if (result.length > 0) {
         setData(result)
+        subScribeData(result)
         setEditingKey('');
         message.success('Edit success! :' + symbol);
         return
@@ -198,7 +202,7 @@ function App() {
 
     } catch (error) {
       message.error('Submit error! :' + error);
-    } finally​ {
+    } finally {
       setLoading(false);
     }
 
@@ -242,21 +246,21 @@ function App() {
   }
 
 
-  const subScribeData = () => {
+  const subScribeData = (subscribeData: DataType[]) => {
 
     if (!socketRef.current) return;
 
     const msgObj = {
       action: "subscribe",
       // trades:data.map(ele => ele.symbol),
-      bars: data.map(ele => ele.symbol)
+      bars: subscribeData.map(ele => ele.symbol)
     };
     socketRef.current.send(JSON.stringify(msgObj));
   }
 
   const updatePriceToData = (symbol: string, openPrice: number, closePrice: number, updatedAt: string) => {
     let tempData: DataType[] = [...data];
-    tempData.map((ele: DataType) => {
+    tempData.forEach((ele: DataType) => {
       if (ele.symbol === symbol) {
         ele.openPrice = openPrice
         ele.closePrice = closePrice
@@ -347,6 +351,7 @@ function App() {
             <a onClick={() => {
               const result = handleDeleteSymbol(record.symbol, data)
               setData(result)
+              subScribeData(result)
             }}>Delete</a>
           </Space>
 
@@ -374,36 +379,47 @@ function App() {
     fetchInitDataForFirstTime()
   }, [])
 
-  useEffect(() => {
-    subScribeData();
-  }, [data])
+  // useEffect(() => {
+  //     subScribeData();
+  // }, [data])
 
 
   useEffect(() => {
-    const socket = new WebSocket(import.meta.env.VITE_WEB_SOCKET_APCA ?? "");   
+    const socket = new WebSocket(import.meta.env.VITE_WEB_SOCKET_APCA ?? "");
 
     socket.onopen = () => {
       console.log('WebSocket connection established');
       if (!socket) return;
       const msgObj = {
         action: "auth",
-        key:import.meta.env.VITE_APCA_API_KEY ?? "",
+        key: import.meta.env.VITE_APCA_API_KEY ?? "",
         secret: import.meta.env.VITE_APCA_SECRET_KEY
       };
       socket.send(JSON.stringify(msgObj));
     };
 
     socket.onmessage = (event) => {
-       socketRef.current = socket;
+      socketRef.current = socket;
       try {
-        const data = JSON.parse(event.data);
-        if (data?.[0].msg === "authenticated") {
-          subScribeData();
+        const msg = JSON.parse(event.data);
+        if (msg?.[0].msg === "authenticated") {
+          subScribeData(data);
         }
 
-        if (data?.[0]["T"] === "b") { // "b" == bars
-          const info = data?.[0];
-          setLastMessage(info);
+        if (msg?.[0]["T"] === "b") { // "b" == bars
+          const info = msg          
+          setLastMessage((prev: any) => {
+            let set = new Set()
+            const mergedArray = [...info, ...prev]
+            let unionArray = mergedArray.filter((item) => {
+                if (!set.has(item["S"])) {
+                    set.add(item["S"])
+                    return true
+                }
+                return false
+            }, set)
+           return unionArray
+        });
         }
       } catch (error) {
         console.error('Error parsing message:', error);
@@ -430,15 +446,23 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if(lastMessage)
-    updatePriceToData(lastMessage["S"], lastMessage["o"], lastMessage["c"], lastMessage["t"])
-  },[lastMessage])
+
+   
+      if (lastMessage.length > 0) {
+        for (let i = 0; i < lastMessage?.length; i++) {
+            updatePriceToData(lastMessage[i]["S"], lastMessage[i]["o"], lastMessage[i]["c"], lastMessage[i]["t"])
+        }
+
+      }
+    
+
+  }, [lastMessage])
 
 
 
   return (
     <>
-      <Spin style={{ zIndex : 10000}} spinning={loading} fullscreen />
+      <Spin style={{ zIndex: 10000 }} spinning={loading} fullscreen />
       <Button type="primary" id="btn-add" onClick={showModal}>ADD Symbol</Button>
       <Form form={tableForm} component={false}>
         <Table
@@ -460,7 +484,7 @@ function App() {
         onCancel={handleCancel}
         okText={"Submit"}
         loading={loading}
-      > 
+      >
 
         <Form
           form={form}
