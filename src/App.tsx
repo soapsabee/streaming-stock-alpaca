@@ -380,15 +380,15 @@ function App() {
 
 
   useEffect(() => {
-    const socket = new WebSocket('wss://stream.data.alpaca.markets/v2/iex');   
+    const socket = new WebSocket(import.meta.env.VITE_WEB_SOCKET_APCA ?? "");   
 
     socket.onopen = () => {
       console.log('WebSocket connection established');
       if (!socket) return;
       const msgObj = {
         action: "auth",
-        key: "PKY4SBTIAHLSZE4JF67M6JI6R3",
-        secret: "4edMoYBwhV4wPrZZptXzGhDCPJGZTPqy2GVMX8auao4C"
+        key:import.meta.env.VITE_APCA_API_KEY ?? "",
+        secret: import.meta.env.VITE_APCA_SECRET_KEY
       };
       socket.send(JSON.stringify(msgObj));
     };
