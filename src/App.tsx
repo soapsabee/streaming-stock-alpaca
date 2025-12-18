@@ -15,11 +15,11 @@ import {
 import {
   ArrowDownOutlined,
   ArrowUpOutlined
-} from '@ant-design/icons';
-import type { TableProps } from 'antd';
-import type { ColorSideType, IconSideType, DataType, EditDataObj } from './types/types';
-import { getAssetsByIdOrSymbol, getLatestBarsBySymbol } from './services/services';
-import EditableCell from './components/EditableCell';
+} from '@ant-design/icons'
+import type { TableProps } from 'antd'
+import type { ColorSideType, IconSideType, DataType, EditDataObj } from './types/types'
+import { getAssetsByIdOrSymbol, getLatestBarsBySymbol } from './services/services'
+import EditableCell from './components/EditableCell'
 
 export const conditionShowColorSide = (side: string) => {
 
@@ -42,7 +42,7 @@ export const conditionShowIconSide = (side: string) => {
 }
 
 export const conditionSelectSide = (openPrice: number, closePrice: number) => {
-  let side = "neutral";
+  let side = "neutral"
   if (closePrice > openPrice) {
     side = "up"
   }
@@ -63,33 +63,33 @@ export const checkReachLimitSymbol = (symbolArray: DataType[]) => {
 }
 
 export const handleDeleteSymbol = (symbol: string, symbolArray: DataType[]) => {
-  let tempData = symbolArray;
-  tempData = tempData.filter(ele => ele.symbol !== symbol);
+  let tempData = symbolArray
+  tempData = tempData.filter(ele => ele.symbol !== symbol)
   return tempData
 }
 
 export const handleEditSymbol = (newValue: DataType, symbolArray: DataType[], editSaveObj: EditDataObj) => {
 
   const newData = [...symbolArray]
-  const index = newData.findIndex((item) => editSaveObj?.oldSymbol === item.symbol);
+  const index = newData.findIndex((item) => editSaveObj?.oldSymbol === item.symbol)
   if (index > -1) {
-    // const item = newData[index];
+    // const item = newData[index]
     newData.splice(index, 1, {
       ...newValue,
       ...symbolArray,
-    });
-    return newData;
+    })
+    return newData
   }
   return []
 }
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = Form.useForm();
-  const [tableForm] = Form.useForm();
-  const socketRef: any = useRef(null);
-  const [lastMessage, setLastMessage] = useState<any>([]);
-  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [form] = Form.useForm()
+  const [tableForm] = Form.useForm()
+  const socketRef: any = useRef(null)
+  const [lastMessage, setLastMessage] = useState<any>([])
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState<DataType[]>([
     { key: '1', symbol: 'AAPL', openPrice: 0, closePrice: 0, updatedAt: '' },
     { key: '2', symbol: 'TSLA', openPrice: 0, closePrice: 0, updatedAt: '' },
@@ -118,16 +118,13 @@ function App() {
     { key: '23', symbol: 'XOM', openPrice: 0, closePrice: 0, updatedAt: '' },
     { key: '24', symbol: 'CVX', openPrice: 0, closePrice: 0, updatedAt: '' },
     { key: '25', symbol: 'WMT', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '26', symbol: 'COST', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '27', symbol: 'T', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '28', symbol: 'KO', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '29', symbol: 'PEP', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '30', symbol: 'RTX', openPrice: 0, closePrice: 0, updatedAt: '' },
-  ]);
-  const [previousData, setPreviousData] =
-    useState<DataType[]>([]);
-  const [editingKey, setEditingKey] = useState('');
-  const isEditing = (record: DataType) => record.key === editingKey;
+    { key: '26', symbol: 'T', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '27', symbol: 'KO', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '28', symbol: 'PEP', openPrice: 0, closePrice: 0, updatedAt: '' },
+    { key: '29', symbol: 'RTX', openPrice: 0, closePrice: 0, updatedAt: '' },
+  ])
+  const [editingKey, setEditingKey] = useState('')
+  const isEditing = (record: DataType) => record.key === editingKey
 
   const handleErrorGetLatestBar = (res: string) => {
     const txtArray = res.split(",")
@@ -135,7 +132,7 @@ function App() {
   }
 
   const handleSaveSymbol = async (symbol: string, editSaveObj: EditDataObj) => {
-    setLoading(true);
+    setLoading(true)
     let value: DataType = {
       key: Math.random().toString(),
       symbol: symbol,
@@ -147,35 +144,35 @@ function App() {
     try {
 
       if (editSaveObj?.formTypeEdit === true && editSaveObj?.oldSymbol === symbol) {
-        setEditingKey('');
-        return;
+        setEditingKey('')
+        return
       }
 
       if (checkReachLimitSymbol(data) && editSaveObj?.formTypeEdit === false) {
-        throw "You now have 30 symbols.";
+        throw "You now have 30 symbols."
       }
 
-      const checkAssets = await getAssetsByIdOrSymbol(symbol);
+      const checkAssets = await getAssetsByIdOrSymbol(symbol)
       if (checkAssets.code === 40410000) { // "ไม่พบ symbol นี้"
-        throw new Error(checkAssets.message);
+        throw new Error(checkAssets.message)
       }
 
       if (checkDuplicatedSymbol(symbol, data).length > 0) {
-        throw "This symbol is already";
+        throw "This symbol is already"
       }
 
-      const res = await getLatestBarsBySymbol(symbol);
+      const res = await getLatestBarsBySymbol(symbol)
 
       if (res?.message?.split(",")[0] === "code=400") {
         return handleErrorGetLatestBar(res.message)
       }
 
-      const bars = res.bars;
-      const temp = bars[symbol];
+      const bars = res.bars
+      const temp = bars[symbol]
       if (!temp) throw "This symbol not have price info"
-      value.openPrice = temp["o"];
-      value.closePrice = temp["c"];
-      value.updatedAt = temp["t"];
+      value.openPrice = temp["o"]
+      value.closePrice = temp["c"]
+      value.updatedAt = temp["t"]
       let tempData: DataType[] = []
       if (editSaveObj?.formTypeEdit === false) {
         tempData = [
@@ -185,81 +182,80 @@ function App() {
 
         setData(tempData)
         subScribeData(tempData)
-        message.success('Submit success! :' + value?.symbol);
-        handleCancel();
-        return;
+        message.success('Submit success! :' + value?.symbol)
+        handleCancel()
+        return
       }
       const result = handleEditSymbol(value, data, editSaveObj)
       if (result.length > 0) {
         setData(result)
         subScribeData(result)
-        setEditingKey('');
-        message.success('Edit success! :' + symbol);
+        setEditingKey('')
+        message.success('Edit success! :' + symbol)
         return
       }
-      message.success('Edit failed! :' + symbol);
+      message.success('Edit failed! :' + symbol)
       return
 
     } catch (error) {
-      message.error('Submit error! :' + error);
+      message.error('Submit error! :' + error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
 
-  };
+  }
 
   const onFinishFailed = () => {
-    message.error('Submit failed!');
-  };
+    message.error('Submit failed!')
+  }
 
   const showModal = () => {
-    setIsModalOpen(true);
-    form.resetFields();
-  };
+    setIsModalOpen(true)
+    form.resetFields()
+  }
 
   const handleOk = () => {
-    form.submit();
-  };
+    form.submit()
+  }
 
   const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+    setIsModalOpen(false)
+  }
 
 
   const fetchInitDataForFirstTime = async () => {
     try {
-      const tempData = data.map(ele => ele.symbol);
-      const arraySymbol = encodeURI(tempData.join(","));
-      const res = await getLatestBarsBySymbol(arraySymbol);
-      const bars = res.bars;
+      const tempData = data.map(ele => ele.symbol)
+      const arraySymbol = encodeURI(tempData.join(","))
+      const res = await getLatestBarsBySymbol(arraySymbol)
+      const bars = res.bars
 
       for (let i = 0; i < tempData.length; i++) {
-        let temp = bars[tempData[i]];
-        updatePriceToData(tempData[i], temp["o"], temp["c"], temp["t"]);
+        let temp = bars[tempData[i]]
+        updatePriceToData(tempData[i], temp["o"], temp["c"], temp["t"])
 
-      };
+      }
 
     } catch (error) {
-      console.error(error);
-      message.error('Fetch init error! :' + error);
+      console.error(error)
+      message.error('Fetch init error! :' + error)
     }
   }
 
 
   const subScribeData = (subscribeData: DataType[]) => {
 
-    if (!socketRef.current) return;
-
+    if (!socketRef.current) return
     const msgObj = {
       action: "subscribe",
       // trades:data.map(ele => ele.symbol),
       bars: subscribeData.map(ele => ele.symbol)
-    };
-    socketRef.current.send(JSON.stringify(msgObj));
+    }
+    socketRef.current.send(JSON.stringify(msgObj))
   }
 
   const updatePriceToData = (symbol: string, openPrice: number, closePrice: number, updatedAt: string) => {
-    let tempData: DataType[] = [...data];
+    let tempData: DataType[] = [...data]
     tempData.forEach((ele: DataType) => {
       if (ele.symbol === symbol) {
         ele.openPrice = openPrice
@@ -267,14 +263,14 @@ function App() {
         ele.updatedAt = updatedAt
         return ele
       }
-    });
-    setData(tempData);
+    })
+    setData(tempData)
   }
 
   const edit = (record: Partial<DataType> & { key: React.Key }) => {
-    tableForm.setFieldsValue({ ...record });
-    setEditingKey(record.key);
-  };
+    tableForm.setFieldsValue({ ...record })
+    setEditingKey(record.key)
+  }
 
   const columns = [
     {
@@ -288,9 +284,9 @@ function App() {
       dataIndex: 'latestPrice',
       key: 'latestPrice',
       render: (_: string, record: DataType) => {
-        let side = conditionSelectSide(record.openPrice, record.closePrice);
-        let color = conditionShowColorSide(side);
-        let icon = conditionShowIconSide(side);
+        let side = conditionSelectSide(record.openPrice, record.closePrice)
+        let color = conditionShowColorSide(side)
+        let icon = conditionShowIconSide(side)
 
         return <>
           <Statistic
@@ -326,7 +322,7 @@ function App() {
       title: 'operation',
       dataIndex: 'operation',
       render: (_: any, record: DataType) => {
-        const editable = isEditing(record);
+        const editable = isEditing(record)
         return editable ? (
           <Space>
             <Typography.Link onClick={() => {
@@ -355,13 +351,13 @@ function App() {
             }}>Delete</a>
           </Space>
 
-        );
+        )
       },
     },
-  ];
+  ]
   const mergedColumns: TableProps<DataType>['columns'] = columns.map((col) => {
     if (!col.editable) {
-      return col;
+      return col
     }
     return {
       ...col,
@@ -372,8 +368,8 @@ function App() {
         title: col.title,
         editing: isEditing(record),
       }),
-    };
-  });
+    }
+  })
 
   useEffect(() => {
     fetchInitDataForFirstTime()
@@ -385,25 +381,25 @@ function App() {
 
 
   useEffect(() => {
-    const socket = new WebSocket(import.meta.env.VITE_WEB_SOCKET_APCA ?? "");
+    const socket = new WebSocket(import.meta.env.VITE_WEB_SOCKET_APCA ?? "")
 
     socket.onopen = () => {
-      console.log('WebSocket connection established');
-      if (!socket) return;
+      console.log('WebSocket connection established')
+      if (!socket) return
       const msgObj = {
         action: "auth",
         key: import.meta.env.VITE_APCA_API_KEY ?? "",
         secret: import.meta.env.VITE_APCA_SECRET_KEY
-      };
-      socket.send(JSON.stringify(msgObj));
-    };
+      }
+      socket.send(JSON.stringify(msgObj))
+    }
 
     socket.onmessage = (event) => {
-      socketRef.current = socket;
+      socketRef.current = socket
       try {
-        const msg = JSON.parse(event.data);
+        const msg = JSON.parse(event.data)
         if (msg?.[0].msg === "authenticated") {
-          subScribeData(data);
+          subScribeData(data)
         }
 
         if (msg?.[0]["T"] === "b") { // "b" == bars
@@ -419,31 +415,31 @@ function App() {
                 return false
             }, set)
            return unionArray
-        });
+        })
         }
       } catch (error) {
-        console.error('Error parsing message:', error);
+        console.error('Error parsing message:', error)
       }
-    };
+    }
 
     socket.onerror = (error) => {
-      console.error('WebSocket error:', error);
+      console.error('WebSocket error:', error)
       // setConnectionStatus('Error');
-    };
+    }
 
     socket.onclose = () => {
-      console.log('WebSocket connection closed');
+      console.log('WebSocket connection closed')
       // setConnectionStatus('Disconnected');
-    };
+    }
 
     // Clean up the WebSocket connection when the component unmounts
     return () => {
-      console.log('Closing WebSocket connection');
+      console.log('Closing WebSocket connection')
       if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.close();
+        socket.close()
       }
-    };
-  }, []);
+    }
+  }, [])
 
   useEffect(() => {
 
@@ -462,7 +458,7 @@ function App() {
 
   return (
     <>
-      <Spin style={{ zIndex: 10000 }} spinning={loading} fullscreen />
+      <Spin spinning={loading} fullscreen />
       <Button type="primary" id="btn-add" onClick={showModal}>ADD Symbol</Button>
       <Form form={tableForm} component={false}>
         <Table
