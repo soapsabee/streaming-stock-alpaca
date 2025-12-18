@@ -375,16 +375,13 @@ function App() {
     fetchInitDataForFirstTime()
   }, [])
 
-  // useEffect(() => {
-  //     subScribeData();
-  // }, [data])
-
 
   useEffect(() => {
     const socket = new WebSocket(import.meta.env.VITE_WEB_SOCKET_APCA ?? "")
 
     socket.onopen = () => {
       console.log('WebSocket connection established')
+      message.success('WebSocket connection established')
       if (!socket) return
       const msgObj = {
         action: "auth",
@@ -402,6 +399,13 @@ function App() {
           subScribeData(data)
         }
 
+        // if(msg?.[0]["T"] === "subscription"){
+        //   const barsAll = msg?.[0]["bars"]
+        //   const filterRemoveUnuseSymbol = lastMessage.filter((val: any) => barsAll.includes(val["S"]))
+        //   console.log("filterRemoveUnuseSymbol : ",filterRemoveUnuseSymbol)
+        //   setLastMessage(filterRemoveUnuseSymbol)
+        // }
+
         if (msg?.[0]["T"] === "b") { // "b" == bars
           const info = msg          
           setLastMessage((prev: any) => {
@@ -413,22 +417,26 @@ function App() {
                     return true
                 }
                 return false
-            }, set)
+            })
            return unionArray
         })
         }
       } catch (error) {
         console.error('Error parsing message:', error)
+        message.error('Error parsing message:'+ error)
+
       }
     }
 
     socket.onerror = (error) => {
       console.error('WebSocket error:', error)
+      message.error('WebSocket error:' + error)
       // setConnectionStatus('Error');
     }
 
     socket.onclose = () => {
       console.log('WebSocket connection closed')
+      message.warning('WebSocket connection closed')
       // setConnectionStatus('Disconnected');
     }
 
@@ -443,15 +451,12 @@ function App() {
 
   useEffect(() => {
 
-   
       if (lastMessage.length > 0) {
         for (let i = 0; i < lastMessage?.length; i++) {
             updatePriceToData(lastMessage[i]["S"], lastMessage[i]["o"], lastMessage[i]["c"], lastMessage[i]["t"])
         }
-
       }
-    
-
+  
   }, [lastMessage])
 
 
