@@ -399,6 +399,10 @@ function App() {
           subScribeData(data)
         }
 
+        if (msg?.[0]["T"] === "error"){
+          message.error(msg?.[0]["msg"], 0)
+        }
+
         // if(msg?.[0]["T"] === "subscription"){
         //   const barsAll = msg?.[0]["bars"]
         //   const filterRemoveUnuseSymbol = lastMessage.filter((val: any) => barsAll.includes(val["S"]))
