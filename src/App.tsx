@@ -90,39 +90,39 @@ function App() {
   const socketRef: any = useRef(null)
   const [lastMessage, setLastMessage] = useState<any>([])
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<DataType[]>([
-    { key: '1', symbol: 'AAPL', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '2', symbol: 'TSLA', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '3', symbol: 'MSFT', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '4', symbol: 'GOOGL', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '5', symbol: 'AMZN', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '6', symbol: 'META', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '7', symbol: 'NVDA', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '8', symbol: 'NFLX', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '9', symbol: 'AMD', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '10', symbol: 'INTC', openPrice: 0, closePrice: 0, updatedAt: '' },
+  const [data, setData] = useState<DataType[]>(
+  [
+  { "key": "1", "symbol": "BTC/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "2", "symbol": "ETH/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "3", "symbol": "SOL/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "4", "symbol": "ADA/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "5", "symbol": "AVAX/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "6", "symbol": "DOGE/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "7", "symbol": "DOT/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "8", "symbol": "MATIC/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "9", "symbol": "LINK/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "10", "symbol": "LTC/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "11", "symbol": "BCH/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "12", "symbol": "XRP/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "13", "symbol": "TRX/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "14", "symbol": "UNI/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "15", "symbol": "AAVE/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "16", "symbol": "ATOM/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "17", "symbol": "ALGO/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "18", "symbol": "FTM/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "19", "symbol": "NEAR/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "20", "symbol": "SAND/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "21", "symbol": "MANA/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "22", "symbol": "APE/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "23", "symbol": "EGLD/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "24", "symbol": "XTZ/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "25", "symbol": "FIL/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "26", "symbol": "HBAR/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "27", "symbol": "ICP/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "28", "symbol": "EOS/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" },
+  { "key": "29", "symbol": "FLOW/USD", "openPrice": 0, "closePrice": 0, "updatedAt": "" }
 
-    { key: '11', symbol: 'PLTR', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '12', symbol: 'COIN', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '13', symbol: 'UBER', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '14', symbol: 'LYFT', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '15', symbol: 'SHOP', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '16', symbol: 'BA', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '17', symbol: 'DIS', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '18', symbol: 'NKE', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '19', symbol: 'JPM', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '20', symbol: 'BAC', openPrice: 0, closePrice: 0, updatedAt: '' },
-
-    { key: '21', symbol: 'V', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '22', symbol: 'MA', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '23', symbol: 'XOM', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '24', symbol: 'CVX', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '25', symbol: 'WMT', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '26', symbol: 'T', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '27', symbol: 'KO', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '28', symbol: 'PEP', openPrice: 0, closePrice: 0, updatedAt: '' },
-    { key: '29', symbol: 'RTX', openPrice: 0, closePrice: 0, updatedAt: '' },
-  ])
+])
   const [editingKey, setEditingKey] = useState('')
   const isEditing = (record: DataType) => record.key === editingKey
 
@@ -190,6 +190,7 @@ function App() {
       if (result.length > 0) {
         setData(result)
         subScribeData(result)
+        unSubScribeData(editSaveObj?.oldSymbol)
         setEditingKey('')
         message.success('Edit success! :' + symbol)
         return
@@ -232,8 +233,9 @@ function App() {
 
       for (let i = 0; i < tempData.length; i++) {
         let temp = bars[tempData[i]]
-        updatePriceToData(tempData[i], temp["o"], temp["c"], temp["t"])
-
+        if(temp){
+          updatePriceToData(tempData[i], temp["o"], temp["c"], temp["t"])
+        }
       }
 
     } catch (error) {
@@ -242,6 +244,15 @@ function App() {
     }
   }
 
+  const unSubScribeData = (symbol: string) => {
+    if (!socketRef.current) return
+    const msgObj = {
+      action: "unsubscribe",
+      // trades:data.map(ele => ele.symbol),
+      bars: [symbol]
+    }
+    socketRef.current.send(JSON.stringify(msgObj))
+  }
 
   const subScribeData = (subscribeData: DataType[]) => {
 
@@ -347,7 +358,7 @@ function App() {
             <a onClick={() => {
               const result = handleDeleteSymbol(record.symbol, data)
               setData(result)
-              subScribeData(result)
+              unSubScribeData(record.symbol)
             }}>Delete</a>
           </Space>
 
@@ -403,12 +414,13 @@ function App() {
           message.error(msg?.[0]["msg"], 0)
         }
 
-        // if(msg?.[0]["T"] === "subscription"){
-        //   const barsAll = msg?.[0]["bars"]
-        //   const filterRemoveUnuseSymbol = lastMessage.filter((val: any) => barsAll.includes(val["S"]))
-        //   console.log("filterRemoveUnuseSymbol : ",filterRemoveUnuseSymbol)
-        //   setLastMessage(filterRemoveUnuseSymbol)
-        // }
+        if(msg?.[0]["T"] === "subscription"){
+          const barsAll = msg?.[0]["bars"]
+          setLastMessage((prev : any) => {
+              const filterRemoveUnuseSymbol = prev.filter((val: any) => barsAll.includes(val["S"]))
+              return filterRemoveUnuseSymbol
+          })
+        }
 
         if (msg?.[0]["T"] === "b") { // "b" == bars
           const info = msg          
@@ -455,6 +467,7 @@ function App() {
 
   useEffect(() => {
 
+    console.log("msg: ", lastMessage)
       if (lastMessage.length > 0) {
         for (let i = 0; i < lastMessage?.length; i++) {
             updatePriceToData(lastMessage[i]["S"], lastMessage[i]["o"], lastMessage[i]["c"], lastMessage[i]["t"])

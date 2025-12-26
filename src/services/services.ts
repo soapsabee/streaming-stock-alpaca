@@ -20,6 +20,6 @@ export const getLatestBarsBySymbol = async (symbol: string) => {
         method: 'GET', 
         headers: headers
     };
-    const res = await fetch(`${import.meta.env.VITE_APCA_DATA_API_DOMAIN}/v2/stocks/bars/latest?symbols=${symbol}`, options)
+    const res = await fetch(`${import.meta.env.VITE_APCA_DATA_API_DOMAIN}/v1beta3/crypto/us/latest/bars?symbols=${symbol}`, options)
     return res.json()
 }
